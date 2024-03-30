@@ -5,12 +5,15 @@ const cors = require("cors")
 const app = express()
 require("dotenv").config()
 
+// server routes
+const sellerRouter = require("./routes/ownerRoute")
 
 // app usage 
 app.use(express.json())
 app.use(cors())
+app.use("/" , sellerRouter)
 
-// server routes
+
 // universal routes
 app.get("/" , (req,res)=>res.send("our route is working perfectly fine"))
 app.get("/*" , (req,res)=> res.send("the route was not found"))
