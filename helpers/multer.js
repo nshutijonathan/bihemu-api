@@ -1,20 +1,16 @@
-const multer = require('multer');
-const path = require('path');
+const multer = require("multer")
+const path = require("path")
 
 const checkFile = multer({
-  storage: multer.diskStorage({}),
-  fileFilter: async (req, file, cb) => {
-    try {
-      const extensionn=await path.extname(file.originalname).toLowerCase();
-      const allowedExtensions =['.jpeg', '.png', '.gif', '.pdf', '.svg','.jpg' ]
-
-      if(!allowedExtensions.includes(extensionn)){
-        cb(new Error("file format is not supported" , false))
-      }
-      cb(null , true)
-    } catch (error) {
-        console.log(error)
+    storage:multer.diskStorage({}),
+    fileFilter:(req,file,cb)=>{
+        const extension = path.extname(file.originalname).toLowerCase()
+        const allowedExtension = [".jpg" , ".png" ,".gif" ,".jpeg" ,".svg" ,".pdf"]
+        if(!allowedExtension.includes(extension)){
+            cb(new Error("Unsupported file format" , false))
+        }
+        cb(null , true)
     }
-  },
-});
+})
+
 module.exports = checkFile
