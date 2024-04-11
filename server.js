@@ -15,6 +15,9 @@ app.get("/" , (req,res)=>res.send("App running successfully"))
 // admin router
 const adminRouter = require("./routes/adminRoute")
 app.use("/" , adminRouter)
+// shop Router
+const shopRouter = require("./routes/shopRoute")
+app.use("/" , shopRouter)
 // end of routes
 
 
