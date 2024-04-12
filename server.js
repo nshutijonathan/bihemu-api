@@ -18,6 +18,9 @@ app.use("/" , adminRouter)
 // shop Router
 const shopRouter = require("./routes/shopRoute")
 app.use("/" , shopRouter)
+// debit Router
+const debitRouter=require("./routes/debitRouter")
+app.use("/" , debitRouter)
 // end of routes
 
 

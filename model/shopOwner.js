@@ -21,7 +21,13 @@ const shop = mongoose.Schema({
         type:Date,
         default:Date.now()
     },
-  
+     
+    email:{
+        type:String
+    },
+    password:{
+        type:String
+    }
    
 })
 
