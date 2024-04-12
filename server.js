@@ -10,6 +10,7 @@ require("dotenv").config()
 // app usage 
 app.use(express.json())
 app.use(cors())
+app.use(express.urlencoded({ extended: false}));
 app.get("/" , (req,res)=>res.send("App running successfully"))
 // routes
 // admin router
@@ -21,6 +22,9 @@ app.use("/" , shopRouter)
 // debit Router
 const debitRouter=require("./routes/debitRouter")
 app.use("/" , debitRouter)
+// payment route
+const paymentRoute = require("./routes/paymentRoute")
+app.use("/" , paymentRoute)
 // end of routes
 
 
