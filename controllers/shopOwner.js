@@ -1,6 +1,6 @@
 const shop = require('../model/shopOwner');
 const bcrypt = require('bcryptjs');
-const { json } = require('express');
+
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -8,6 +8,7 @@ const getShop = async (req, res) => {
   try {
     const shops = await shop.find();
     res.status(200).json({ status: 'success', shops });
+  
   } catch (error) {
     res.status(500).json({ status: 'failed', message: error.message });
   }

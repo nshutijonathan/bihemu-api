@@ -25,6 +25,13 @@ app.use("/" , debitRouter)
 // payment route
 const paymentRoute = require("./routes/paymentRoute")
 app.use("/" , paymentRoute)
+// invoice Router
+const router = require("./routes/reportRoute")
+app.use("/" , router)
+
+// report Router 
+const route = require("./routes/testRoute")
+app.use("/" , route)
 // end of routes
 
 
