@@ -1,6 +1,8 @@
 const uploadToCloud = require('../helpers/cloudinary');
 const adminSchema = require('../model/Admine');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const getAdmin = async (req, res) => {
   try {
@@ -13,8 +15,8 @@ const getAdmin = async (req, res) => {
 
 const createAdmin = async (req, res) => {
   try {
-    const userExistance = await adminSchema.findOne({ email: req.body.email });
-    if (userExistance) {
+    const user = await adminSchema.findOne({ email: req.body.email });
+    if (user) {
       res.status(401).json({ status: 'user already exisists' });
     } else {
       const hashi = await bcrypt.genSalt(10);
@@ -22,7 +24,7 @@ const createAdmin = async (req, res) => {
       const picturee = await uploadToCloud(req.file, res);
       const createAdmin = await adminSchema.create({
         email: req.body.email,
-        password: hashPassword,
+        password:hashPassword,
         username: req.body.username,
         image: picturee.secure_url,
       });
@@ -77,4 +79,27 @@ const updatee = async (req, res) => {
     res.status(500).json({ status: 'failed', message: error.message });
   }
 };
-module.exports = { getAdmin, createAdmin, removeAdmin, getSingleUser, updatee };
+
+const authenticating = async(req,res)=>{
+  try {
+    const user = await adminSchema.findOne({email:req.body.email})
+    if(!user){
+      res.status(500).json({status:"user not found"})
+    }if(await bcrypt.compare(req.body.password , user.password)){
+      res.status(200).json({status:"logged in " , token:jwt.sign({userId:user._id} , process.env.secret , {expiresIn:"1day"})})
+    }else{
+      res.status(500).json({message:"Invalid credentials"})
+    }
+  } catch (error) {
+     res.status(500).json({status:"failed" , message:error.message})
+  }
+}
+module.exports = {
+  getAdmin,
+  createAdmin,
+  removeAdmin,
+  getSingleUser,
+  updatee,
+  authenticating
+ 
+};
